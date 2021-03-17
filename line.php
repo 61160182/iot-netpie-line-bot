@@ -1,7 +1,7 @@
 <?php
 
 $API_URL = 'https://api.line.me/v2/bot/message/reply';
-$ACCESS_TOKEN = 'PZ6qlbYABvcIg+sly4KFcjs8rAVOW1+EEEDBgcOn86a9MwA+MNHV8//FPERaqcVuWnKEs4U+6oe0jLA++fQlGKdK9/SCRKlZ0x4otRbscQZBRbe5VDkXvu32iZAA+dpXEwrb47Ncr9kuH1vSp+t3LwdB04t89/1O/w1cDnyilFU='; // Access Token ค่าที่เราสร้างขึ้น
+$ACCESS_TOKEN = '5lYmrTl8D8uUy7bTSJAfNdaqbzJz3+/dYesdRseiXxrf245oxLeKoHUtXklBbz8hlAHr6z/8C0uBIDNQsdSejo+uQNvaEySx3/oTKqEC5B0SDclbwjEqPHFcwjAR0/xXD6Na64tKupkfw+V3mv7htQdB04t89/1O/w1cDnyilFU='; // Access Token ค่าที่เราสร้างขึ้น
 $POST_HEADER = array('Content-Type: application/json', 'Authorization: Bearer ' . $ACCESS_TOKEN);
 
 $request = file_get_contents('php://input');   // Get request content
@@ -27,20 +27,10 @@ if ( sizeof($request_array['events']) > 0 )
 		}
 	   
 	   	if($text == "สถานการณ์โควิดวันนี้" || $text == "covid19" || $text == "covid-19" || $text == "Covid-19"){
-		   $url = 'https://covid19.th-stat.com/api/open/today';
-		   $ch = curl_init($url);
-		   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		   curl_setopt($ch, CURLOPT_HTTPHEADER, $post_header);
-		   curl_setopt($ch, CURLOPT_POSTFIELDS, $post_body);
-		   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		   $result = curl_exec($ch);
-		   curl_close($ch);   
-		   
-		   $obj = json_decode($result);
-		   
-		   //$reply_message = $result;
-		   $reply_message = 'ติดเชื้อสะสมโว้ยยย!!! '. $obj->{'Confirmed'} .' คน รักษาหายแล้ว '.$obj->{'Recovered'} . ' คน';
+		   	$url = 'https://covid19.th-stat.com/api/open/today';
+			$json = file_get_contents($url);
+			$obj = json_decode($json);
+			$reply_message = 'ผู้ติดเชื้อสะสม '. $obj->Confirmed .' คน เสียชีวิต '.$obj->Deaths . ' คน' .' คน รักษาหายแล้ว '.$obj->Recovered . ' คน';
 	
 	        }	
 	   
